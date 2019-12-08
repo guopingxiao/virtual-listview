@@ -1,46 +1,38 @@
 <template>
-  <VirtualList :listData="data" :estimatedItemSize="100" v-slot="slotProps">
-    <Item :item="slotProps.item"/>
-  </VirtualList>
+<div id="app">
+  <VirtualList :listData="data" :itemSize="100"/>
+</div>
 </template>
 
 <script>
-  import VirtualList from "./components/VirtualList.vue";
-  import Item from "./components/Item.vue";
-
-  import faker from "faker";
-
-  let data = [];
-  for (let id = 0; id < 1000; id++) {
-    data.push({
-      id,
-      value: faker.lorem.sentences() // 长文本
-    });
+  import VirtualList from "./components/VirtualList";
+  let d = [];
+  for (let i = 0; i < 1000; i++) {
+    d.push({ id: i, value: i });
   }
 
   export default {
-    name: "app",
+    name: "App",
     data() {
       return {
-        data
+        data: d
       };
     },
     components: {
-      VirtualList,
-      Item
+      VirtualList
     }
   };
 </script>
 
 <style>
-  html {
+  html{
     height: 100%;
   }
-  body {
+  body{
     height: 100%;
-    margin: 0;
+    margin:0;
   }
-  #app {
-    height: 100%;
+  #app{
+    height:100%;
   }
 </style>
