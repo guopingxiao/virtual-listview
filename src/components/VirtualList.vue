@@ -33,6 +33,12 @@ export default {
     height: {
       type: String,
       default: "100%"
+    },
+
+    //缓冲区比例
+    bufferScale:{
+      type:Number,
+      default:1
     }
   },
 
@@ -74,10 +80,22 @@ export default {
       return Math.ceil(this.screenHeight / this.estimatedItemSize);
     },
 
+    //可视区上方渲染条数aboveCount
+    aboveCount(){
+      return Math.min(this.start, this.bufferScale * this.visibleCount)
+    },
+
+    //可视区下方渲染条数aboveCount
+    belowCount(){
+      return Math.min(this.listData.length - this.end, this.bufferScale * this.visibleCount);
+    },
+
     //获取真实显示列表数据
-    visibleData() { // 可视区的listData
-      return this._listData.slice(this.start, this.end);
-    }
+    visibleData(){
+      let start = this.start - this.aboveCount; // 多渲染this.aboveCount
+      let end = this.end + this.belowCount; // 多渲染this.belowCount
+      return this._listData.slice(start, end);
+    },
 
   },
 
