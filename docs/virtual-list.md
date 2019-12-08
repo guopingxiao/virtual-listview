@@ -73,7 +73,8 @@ document.getElementById('button').addEventListener('click',function(){
 
 <img src="2.png">
 
-## 实现
+## 虚拟列表固定高度
+
 虚拟列表的实现，实际上就是在首屏加载的时候，只加载可视区域内需要的列表项，当滚动发生时，动态通过计算获得可视区域内的列表项，并将非可视区域内存在的列表项删除。
 
 - 计算当前可视区域起始数据索引(`startIndex`)
@@ -201,7 +202,9 @@ export default {
 最终效果如下：
 <img src="4.gif">
 
-## 列表项动态高度
+代码见分支：listview_fixed_height
+
+## 虚拟列表动态高度
 在之前的实现中，列表项的高度是固定的，因为高度固定，所以可以很轻易的获取列表项的整体高度以及滚动时的显示数据与对应的偏移量。而实际应用的时候，当列表中包含文本之类的可变内容，会导致列表项的高度并不相同。
 比如这种情况：
 
@@ -343,6 +346,11 @@ for (let id = 0; id < 10000; id++) {
 
 从演示效果上看，我们实现了基于文字内容动态撑高列表项情况下的虚拟列表，但是我们可能会发现，当滚动过快时，会出现短暂的白屏现象。
 
+代码见分支： listview_dynamic_height
+
+## 虚拟列表预渲染
+
+
 为了使页面平滑滚动，我们还需要在可见区域的上方和下方渲染额外的项目，在滚动时给予一些缓冲，所以将屏幕分为三个区域：
 
 可视区域上方：above
@@ -388,7 +396,10 @@ visibleData(){
 
 <img src="6.gif">
 
-基于这个方案，个人开发了一个基于Vue2.x的虚拟列表组件：vue-virtual-listview,可点击查看完整代码。
+代码见 listview_dynamic_cache_height 分支
+
+
+基于这个方案，个人开发了一个基于Vue2.x的虚拟列表组件：vue-virtual-listview, 代码在master分支
 
 ## 面向未来
 在前文中我们使用监听scroll事件的方式来触发可视区域中数据的更新，当滚动发生后，scroll事件会频繁触发，很多时候会造成重复计算的问题，从性能上来说无疑存在浪费的情况。
@@ -398,8 +409,11 @@ visibleData(){
 这种情况下，如果我们能监听列表项的大小变化就能获取其真正的高度了。我们可以使用ResizeObserver来监听列表项内容区域的高度改变，从而实时获取每一列表项的高度。
 不过遗憾的是，在撰写本文的时候，仅有少数浏览器支持ResizeObserver。
 
+本文来自[掘金文章](https://juejin.im/post/5db684ddf265da4d495c40e5?utm_source=gold_browser_extension#heading-8)，自己实现了一下而已。
+
 ## 参考
-浅说虚拟列表的实现原理
-react-virtualized组件的虚拟列表实现
-React和无限列表
-再谈前端虚拟列表的实现
+
+[浅说虚拟列表的实现原理](https://github.com/dwqs/blog/issues/70)
+[react-virtualized组件的虚拟列表实现](https://github.com/dwqs/blog/issues/72)
+[React和无限列表](https://itsze.ro/blog/2017/04/09/infinite-list-and-react.html)
+[再谈前端虚拟列表的实现](https://zhuanlan.zhihu.com/p/34585166)
